@@ -1,58 +1,49 @@
 import asyncio
 from playwright.async_api import async_playwright, Playwright
+import datetime
 
 url = "https://samewaterjet.com.au/"
+# url = "https://www.timeanddate.com/astronomy/sri-lanka/kandy"
 
-async def scroll_to_bottom(page):
-    await page.evaluate("""
-        () => {
-            return new Promise((resolve) => {
-                let totalHeight = 0;
-                const distance = 100;
-                const timer = setInterval(() => {
-                    const scrollHeight = document.body.scrollHeight;
-                    window.scrollBy(0, distance);
-                    totalHeight += distance;
-
-                    if (totalHeight >= scrollHeight) {
-                        clearInterval(timer);
-                        resolve();
-                    }
-                }, 100);
-            });
-        }
-    """)
-    await page.wait_for_timeout(1000)  # wait for animations
+currentTime = datetime.datetime.now()
+formattedTime = currentTime.strftime("%d-%m-%Y__%I-%M-%S%p")
 
 async def run(playwright: Playwright):
-    devices = ["iPhone 12 Pro", "iPad Pro 11", "Desktop Chrome"]
-    browser = await playwright.webkit.launch()
+    devices = ["iPhone 12 Pro", "iPad Pro 11", "Desktop Chrome", ]
+    # browser = await playwright.webkit.launch()
+    browser = await playwright.chromium.launch() # Chrome
 
-    for device_name in devices:
-        device = playwright.devices[device_name]
+    print("Capturing..")
+    
+    for deviceName in devices:
+        
+        device = playwright.devices[deviceName]
         context = await browser.new_context(**device)
+        await context.add_init_script(path="helpers.js")
         page = await context.new_page()
-        await page.goto(url)
-        await scroll_to_bottom(page)
-        page.on("domcontentloaded", await page.screenshot(path=f"{device_name.replace(' ', '_')}.png", full_page=True, animations="disabled") )
-        # await page.screenshot(path=f"{device_name.replace(' ', '_')}.png", full_page=True, animations="disabled")
-        print(device_name)
+        
+        try:
+            await page.goto(url, wait_until='networkidle')
+        except Exception as err:
+            print(err)
+        
+        await page.evaluate("window.scrollToBottom()")
+        await page.evaluate("window.waitForAssetLoad()") 
+    
+        page.on("load", await page.screenshot(
+            path=f"screenshots/{formattedTime}/{deviceName.replace(' ', '_')}.png", 
+            full_page=True, 
+            animations="disabled"
+        ))
+    
+        print(deviceName + " Captured! ✅\n")
         await context.close()
 
-    # Desktop screenshot without device emulation
-    # context = await browser.new_context()
-    # page = await context.new_page()
-    # await page.goto(url)
-    # await scroll_to_bottom(page)
-    # await page.screenshot(path="Desktop_Chrome.png", full_page=True, animations="disabled")
-    # print("Desktop")
-    # await context.close()
 
     await browser.close()
 
 async def main():
     async with async_playwright() as playwright:
-        
         await run(playwright)
 
 asyncio.run(main())
