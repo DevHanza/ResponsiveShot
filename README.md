@@ -1,10 +1,8 @@
-<p align="center">
-  <a href="https://go-skill-icons.vercel.app/" style="display: flex; place-items:center;">
+<div align="center">
     <img src="https://go-skill-icons.vercel.app/api/icons?i=python"/>
     <img height="48" src="https://github.com/user-attachments/assets/409b0d4f-bbe3-4f56-b3c3-ad61ffaa362a"/>
     <img src="https://go-skill-icons.vercel.app/api/icons?i=javascript"/>
-  </a>
-</p>
+</div>
 
 <div align="center">
   
