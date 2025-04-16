@@ -2,8 +2,8 @@ import asyncio
 from playwright.async_api import async_playwright, Playwright
 import datetime
 
-url = "https://samewaterjet.com.au/"
-# url = "https://www.timeanddate.com/astronomy/sri-lanka/kandy"
+url = input("Website URL: ")
+
 
 currentTime = datetime.datetime.now()
 formattedTime = currentTime.strftime("%d-%m-%Y__%I-%M-%S%p")
