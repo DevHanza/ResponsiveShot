@@ -1,18 +1,3 @@
-// function scrollToBottom() {
-//   return new Promise((resolve, reject) => {
-//     try {
-//         setTimeout(() => {
-//           const scrollHeight = document.body.scrollHeight;
-//           window.scrollTo(0, scrollHeight);
-//           resolve();
-//         }, 1000);
-
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
-// }
-
 function scrollToBottom(speed = 100, step = 100) {
   return new Promise((resolve, reject) => {
     try {
@@ -33,15 +18,9 @@ function scrollToBottom(speed = 100, step = 100) {
   });
 }
 
-function waitForAssetLoad() {
-  return new Promise((resolve) => {
-    if (document.readyState === "complete") {
-      resolve();
-    } else {
-      window.addEventListener("load", () => resolve());
-    }
-  });
+function setPageZoom(zoom) {
+  document.body.style.zoom = `${zoom}%`;
 }
 
+window.setPageZoom = setPageZoom;
 window.scrollToBottom = scrollToBottom;
-window.waitForAssetLoad = waitForAssetLoad;

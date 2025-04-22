@@ -9,7 +9,7 @@ currentTime = datetime.datetime.now()
 formattedTime = currentTime.strftime("%d-%m-%Y__%I-%M-%S%p")
 
 async def run(playwright: Playwright):
-    devices = ["iPhone 12 Pro", "iPad Pro 11", "Desktop Chrome", ]
+    devices = ["iPhone 12 Pro", "iPad Pro 11", "Desktop Chrome" ]
     # browser = await playwright.webkit.launch()
     browser = await playwright.chromium.launch() # Chrome
 
@@ -21,14 +21,19 @@ async def run(playwright: Playwright):
         context = await browser.new_context(**device)
         await context.add_init_script(path="helpers.js")
         page = await context.new_page()
+
+        # Set page zoom to 90% in Desktop
+        if deviceName == "Desktop Chrome":
+            await page.evaluate("window.setPageZoom(90)")
+            print("Set the page zoom to 90%")
         
         try:
             await page.goto(url, wait_until='networkidle')
+
         except Exception as err:
             print(err)
         
         await page.evaluate("window.scrollToBottom()")
-        await page.evaluate("window.waitForAssetLoad()") 
     
         page.on("load", await page.screenshot(
             path=f"screenshots/{formattedTime}/{deviceName.replace(' ', '_')}.png", 
