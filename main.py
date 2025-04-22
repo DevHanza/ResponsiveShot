@@ -9,7 +9,7 @@ currentTime = datetime.datetime.now()
 formattedTime = currentTime.strftime("%d-%m-%Y__%I-%M-%S%p")
 
 async def run(playwright: Playwright):
-    devices = ["iPhone 12 Pro", "iPad Pro 11", "Desktop Chrome" ]
+    devices = ["iPhone 12 Pro", " iPad Mini"]
     # browser = await playwright.webkit.launch()
     browser = await playwright.chromium.launch() # Chrome
 
