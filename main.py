@@ -48,7 +48,7 @@ async def run(playwright: Playwright):
             animations="disabled"
         ))
     
-        print(deviceName + " Captured! ✅\n")
+        print("✅ " + deviceName + " Captured!")
         await context.close()
 
 
