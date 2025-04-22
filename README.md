@@ -11,17 +11,9 @@
   <p>This Python app uses Playwright to capture full-page screenshots of a website across multiple devices: iPhone 12 Pro, iPad Mini, and Desktop Chrome.</p>
 </div>  
 
-
-### ✅ Features
-- Emulates multiple devices
-- Full-page screenshots with JavaScript and animation handling
-- Automatically saves screenshots into a timestamped folder
-- Simple terminal interface
-
 ### 🛠️ Requirements
 
 Before running the app, make sure you have:
-
 - Python 3.7+
 - Playwright
 
@@ -41,6 +33,13 @@ Run the script in your terminal:
 python main.py
 ```
 When prompted, enter the full URL of the website you want to capture (e.g., https://google.com).
+
+### ✅ Features
+- Emulates multiple devices
+- Full-page screenshots with JavaScript and animation handling
+- Automatically saves screenshots into a timestamped folder
+- Simple terminal interface
+
 
 ### The tool will:
 
