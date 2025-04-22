@@ -22,6 +22,13 @@ async def run(playwright: Playwright):
         await context.add_init_script(path="helpers.js")
         page = await context.new_page()
 
+
+        # Wait for the load event (includes images, scripts, etc.)
+        await page.wait_for_load_state("load")
+
+        # Wait a bit more to ensure videos/extra JS-loaded content are done
+        await page.wait_for_timeout(2000) 
+
         # Set page zoom to 90% in Desktop
         if deviceName == "Desktop Chrome":
             await page.evaluate("window.setPageZoom(90)")
