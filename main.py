@@ -9,8 +9,7 @@ currentTime = datetime.datetime.now()
 formattedTime = currentTime.strftime("%d-%m-%Y__%I-%M-%S%p")
 
 async def run(playwright: Playwright):
-    devices = ["iPhone 12 Pro", " iPad Mini"]
-    # browser = await playwright.webkit.launch()
+    devices = ["iPhone 12 Pro", "iPad Mini", "Desktop Chrome"]
     browser = await playwright.chromium.launch() # Chrome
 
     print("Capturing..")
@@ -29,14 +28,12 @@ async def run(playwright: Playwright):
         # Wait a bit more to ensure videos/extra JS-loaded content are done
         await page.wait_for_timeout(2000) 
 
-        # Set page zoom to 90% in Desktop
         if deviceName == "Desktop Chrome":
+            await page.set_viewport_size({"width": 1920, "height": 1080})
             await page.evaluate("window.setPageZoom(90)")
-            print("Set the page zoom to 90%")
         
         try:
             await page.goto(url, wait_until='networkidle')
-
         except Exception as err:
             print(err)
         
