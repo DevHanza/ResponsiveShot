@@ -24,11 +24,7 @@ pip install playwright
 playwright install
 ```
 
-🚀 How to Use
-Clone this repository or download the script.
-
 Run the script in your terminal:
-
 ```
 python main.py
 ```
